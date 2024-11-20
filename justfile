@@ -51,12 +51,12 @@ install:
 
 # different checks
 check:
-    # Comming soon
-    #
+    # Run pylint
+    pylint dunst-timer.py
 
 # Install the needed dependencies for the development process
 install-dep:
-    yay -S pyinstaller
+    yay -S pyinstaller python-pylint
 
 # Build the application to a binary
 build:
