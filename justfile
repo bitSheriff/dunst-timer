@@ -56,3 +56,7 @@ clean:
 # Build and install the package
 install:
     makepkg -si
+
+# adds the AUR git remote
+add-aur:
+    git remote add aur ssh://aur@aur.archlinux.org/dunst-timer.git
