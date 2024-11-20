@@ -6,21 +6,26 @@ import sys
 
 def parse_duration(duration_str):
     """
-    Parse a duration string like '5m' or '10s' into seconds.
+    Parse a duration string like '1h5m8s' into total seconds.
     """
-    match = re.match(r"(\d+)([smh])", duration_str)
-    if not match:
-        raise ValueError("Invalid duration format. Use '5m' for minutes or '10s' for seconds.")
-    value, unit = match.groups()
-    value = int(value)
-    if unit == 'h':
-        return value * 3600
-    elif unit == 'm':
-        return value * 60
-    elif unit == 's':
-        return value
-    else:
-        raise ValueError("Invalid duration unit. Use 'h' for hours, 'm' for minutes, 's' for seconds or a combination.")
+    # Match all occurrences of numbers followed by valid time units (h, m, s)
+    matches = re.findall(r"(\d+)([hms])", duration_str)
+    if not matches:
+        raise ValueError("Invalid duration format. Use a combination of 'h', 'm', and 's' (e.g., '1h5m8s').")
+
+    total_seconds = 0
+    for value, unit in matches:
+        value = int(value)
+        if unit == 'h':
+            total_seconds += value * 3600
+        elif unit == 'm':
+            total_seconds += value * 60
+        elif unit == 's':
+            total_seconds += value
+        else:
+            raise ValueError("Invalid duration unit. Use 'h', 'm', or 's'.")
+
+    return total_seconds
 
 
 def timer(timer_name, duration_str):
@@ -32,6 +37,8 @@ def timer(timer_name, duration_str):
     except ValueError as e:
         print(f"Error: {e}")
         return
+
+    print(f"{total_duration} in seconds")
 
     interval = 1  # Update interval in seconds
     notification_id = None  # Store the ID of the current notification
