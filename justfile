@@ -30,19 +30,24 @@ release:
 
     # Regenerate .SRCINFO
     echo "Regenerating .SRCINFO..."
-    makepkg --printsrcinfo > aur/.SRCINFO
+    (
+        cd aur
+        makepkg --printsrcinfo > .SRCINFO
+    )
 
     gum confirm --default=false "Commit and Push?" && (
         # Commit and tag the new release
         echo "Committing changes and creating tag..."
-        git add PKGBUILD .SRCINFO
+        git -C aur add -u
+        git -C aur commit -m "Release v$version"
+        git add -u
         git commit -m "Release v$version"
         git tag -f "v$version"
 
         echo "Tag v$version created."
         git push -f origin
         git push --tags
-        git push -C aur
+        git -C push aur
         echo "Pushed changes and tags to all remotes."
     )
     echo "Done"
@@ -51,11 +56,11 @@ release:
 clean:
     # remove all archives
     rm -rf **tar.gz
-    makepkg -C
+    cd aur && makepkg -C
 
 # Build and install the package
 install:
-    makepkg -si
+    cd aur && makepkg -si
 
 # adds the AUR git remote
 add-aur:
