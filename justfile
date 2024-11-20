@@ -56,8 +56,8 @@ release:
 # Clean the package
 clean:
     # remove all archives
-    rm -rf **tar.gz
-    cd aur && makepkg -C
+    rm -rf **.tar.gz
+    cd aur && rm -rf **.tar.gz && rm -rf src
 
 # Build and install the package
 install:
