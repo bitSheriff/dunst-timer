@@ -35,6 +35,7 @@ release:
 clean:
     # remove all archives
     rm -rf **.tar.gz
+    rm -rf build dist pkg src
 
 # Build and install the package
 install:
