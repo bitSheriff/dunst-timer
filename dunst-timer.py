@@ -2,6 +2,7 @@ import time
 import re
 import subprocess
 import sys
+import argparse
 
 
 def parse_duration(duration_str):
@@ -28,7 +29,7 @@ def parse_duration(duration_str):
     return total_seconds
 
 
-def timer(timer_name, duration_str):
+def start_timer(timer_name, duration_str):
     """
     Run a timer with the given name and duration.
     """
@@ -72,12 +73,10 @@ def timer(timer_name, duration_str):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("Usage: python dunst_timer.py <Timer Name> <Duration>")
-        print("Example: python dunst_timer.py 'Break Timer' 5m")
-        sys.exit(1)
+    parser = argparse.ArgumentParser(description="Run a timer with notifications.")
+    parser.add_argument("-t", "--title", required=True, help="Title of the timer")
+    parser.add_argument("-d", "--duration", required=True, help="Duration of the timer (e.g., '1h5m8s')")
+    
+    args = parser.parse_args()
 
-    timer_name = sys.argv[1]
-    duration = sys.argv[2]
-
-    timer(timer_name, duration)
+    start_timer(args.title, args.duration)
