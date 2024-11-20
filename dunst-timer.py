@@ -74,7 +74,7 @@ def start_timer(timer_name, duration_str):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run a timer with notifications.")
-    parser.add_argument("-t", "--title", required=True, help="Title of the timer")
+    parser.add_argument("-t", "--title", required=False, help="Title of the timer", default="Timer")
     parser.add_argument("-d", "--duration", required=True, help="Duration of the timer (e.g., '1h5m8s')")
     
     args = parser.parse_args()
