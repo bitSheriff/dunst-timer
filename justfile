@@ -14,7 +14,7 @@ release:
         echo "Invalid version format. Please use X.YY.ZZ (e.g., 1.02.03).";
         exit 1; 
     }
-    git add tag "v$version"
+    git tag "v$version"
     echo "Tag $version created."
     git push --tags
     echo "Pushed tags to all remotes."
