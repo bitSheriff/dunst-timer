@@ -1,6 +1,10 @@
 # Justfile for release management
 set shell := ["bash", "-uc"]
 
+# Default target
+default:
+    just --choose
+
 # Prompt for the tag version and create a release
 release:
     #!/bin/bash
@@ -39,7 +43,23 @@ release:
 clean:
     # remove all archives
     rm -rf **.tar.gz
+    rm -rf build dist pkg src
 
 # Build and install the package
 install:
     makepkg -si
+
+# different checks
+check:
+    # Comming soon
+    #
+
+# Install the needed dependencies for the development process
+install-dep:
+    yay -S pyinstaller
+
+# Build the application to a binary
+build:
+    #!/bin/bash
+    echo "Creat the binary with PyInstaller"
+    pyinstaller --clean --onefile ./dunst-timer.py
