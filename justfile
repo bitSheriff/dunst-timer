@@ -20,30 +20,36 @@ release:
 
     # Generate a new source tarball
     echo "Generating source tarball..."
-    tar czf "$version.tar.gz" *
+    tar czf "v$version.tar.gz" *
 
     # Generate and update the SHA256 checksum
     echo "Calculating SHA256 checksum..."
-    checksum=$(sha256sum "$version.tar.gz" | awk '{ print $1 }')
+    checksum=$(sha256sum "v$version.tar.gz" | awk '{ print $1 }')
+    echo "$checksum"
     sed -i "s/sha256sums=.*/sha256sums=('${checksum}')/" PKGBUILD
 
     # Regenerate .SRCINFO
     echo "Regenerating .SRCINFO..."
     makepkg --printsrcinfo > .SRCINFO
 
-    # Commit and tag the new release
-    echo "Committing changes and creating tag..."
-    git add PKGBUILD .SRCINFO
-    git commit -m "Release v$version"
-    git tag "v$version"
+    gum confirm --default=false "Commit and Push?" && (
+        # Commit and tag the new release
+        echo "Committing changes and creating tag..."
+        git add PKGBUILD .SRCINFO
+        git commit -m "Release v$version"
+        git tag "v$version"
 
-    echo "Tag v$version created."
-    git push
-    git push --tags
-    echo "Pushed changes and tags to all remotes."
+        echo "Tag v$version created."
+        git push
+        git push --tags
+        echo "Pushed changes and tags to all remotes."
+    )
+    echo "Done"
 
 # Clean the package
 clean:
+    # remove all archives
+    rm -rf **tar.gz
     makepkg -C
 
 # Build and install the package
