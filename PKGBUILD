@@ -11,5 +11,5 @@ source=("https://github.com/bitSheriff/dunst-timer/archive/v$pkgver.tar.gz")
 sha256sums=('SKIP') # Replace with actual checksum or keep 'SKIP' for development
 
 package() {
-    install -Dm755 "$srcdir/$pkgname-$pkgver/dunst_timer.py" "$pkgdir/usr/bin/dunst_timer"
+    install -Dm755 "$srcdir/$pkgname-$pkgver/dunst-timer.py" "$pkgdir/usr/bin/dunst-timer"
 }
