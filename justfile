@@ -41,6 +41,7 @@ release:
 
         echo "Tag v$version created."
         git push
+        git push aur
         git push --tags
         echo "Pushed changes and tags to all remotes."
     )
