@@ -1,9 +1,7 @@
 # Justfile for release management
 set shell := ["bash", "-uc"]
 
-
 # Prompt for the tag version and create a release
-
 release:
     #!/bin/bash
     echo "Last 5 tags:"
@@ -14,10 +12,35 @@ release:
         echo "Invalid version format. Please use X.YY.ZZ (e.g., 1.02.03).";
         exit 1; 
     }
+
+    # Update the version in PKGBUILD
+    echo "Updating PKGBUILD version..."
+    sed -i "s/pkgver=.*/pkgver=$version/" PKGBUILD
+    sed -i "s/pkgrel=.*/pkgrel=1/" PKGBUILD
+
+    # Generate a new source tarball
+    echo "Generating source tarball..."
+    tar czf "$version.tar.gz" *
+
+    # Generate and update the SHA256 checksum
+    echo "Calculating SHA256 checksum..."
+    checksum=$(sha256sum "$version.tar.gz" | awk '{ print $1 }')
+    sed -i "s/sha256sums=.*/sha256sums=('${checksum}')/" PKGBUILD
+
+    # Regenerate .SRCINFO
+    echo "Regenerating .SRCINFO..."
+    makepkg --printsrcinfo > .SRCINFO
+
+    # Commit and tag the new release
+    echo "Committing changes and creating tag..."
+    git add PKGBUILD .SRCINFO
+    git commit -m "Release v$version"
     git tag "v$version"
-    echo "Tag $version created."
+
+    echo "Tag v$version created."
+    git push
     git push --tags
-    echo "Pushed tags to all remotes."
+    echo "Pushed changes and tags to all remotes."
 
 # Clean the package
 clean:
