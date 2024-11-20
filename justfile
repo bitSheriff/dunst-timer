@@ -37,10 +37,10 @@ release:
         echo "Committing changes and creating tag..."
         git add PKGBUILD .SRCINFO
         git commit -m "Release v$version"
-        git tag "v$version"
+        git tag -f "v$version"
 
         echo "Tag v$version created."
-        git push
+        git push -f origin
         git push aur
         git push --tags
         echo "Pushed changes and tags to all remotes."
