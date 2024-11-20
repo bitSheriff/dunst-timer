@@ -15,8 +15,8 @@ release:
 
     # Update the version in PKGBUILD
     echo "Updating PKGBUILD version..."
-    sed -i "s/pkgver=.*/pkgver=$version/" PKGBUILD
-    sed -i "s/pkgrel=.*/pkgrel=1/" PKGBUILD
+    sed -i "s/pkgver=.*/pkgver=$version/" aur/PKGBUILD
+    sed -i "s/pkgrel=.*/pkgrel=1/" aur/PKGBUILD
 
     # Generate a new source tarball
     echo "Generating source tarball..."
@@ -26,11 +26,11 @@ release:
     echo "Calculating SHA256 checksum..."
     checksum=$(sha256sum "v$version.tar.gz" | awk '{ print $1 }')
     echo "$checksum"
-    sed -i "s/sha256sums=.*/sha256sums=('${checksum}')/" PKGBUILD
+    sed -i "s/sha256sums=.*/sha256sums=('${checksum}')/" aur/PKGBUILD
 
     # Regenerate .SRCINFO
     echo "Regenerating .SRCINFO..."
-    makepkg --printsrcinfo > .SRCINFO
+    makepkg --printsrcinfo > aur/.SRCINFO
 
     gum confirm --default=false "Commit and Push?" && (
         # Commit and tag the new release
@@ -41,8 +41,8 @@ release:
 
         echo "Tag v$version created."
         git push -f origin
-        git push aur
         git push --tags
+        git push -C aur
         echo "Pushed changes and tags to all remotes."
     )
     echo "Done"
