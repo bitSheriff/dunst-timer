@@ -7,12 +7,20 @@ import argparse
 
 def parse_duration(duration_str):
     """
-    Parse a duration string like '1h5m8s' into total seconds.
+    Parse a duration string like '1h5m8s' or 'HH:MM:SS' into total seconds.
     """
+    # Check for HH:MM:SS format
+    if re.match(r"^\d{1,2}:\d{2}:\d{2}$", duration_str):
+        parts = duration_str.split(":")
+        hours = int(parts[0])
+        minutes = int(parts[1])
+        seconds = int(parts[2])
+        return hours * 3600 + minutes * 60 + seconds
+
     # Match all occurrences of numbers followed by valid time units (h, m, s)
     matches = re.findall(r"(\d+)([hms])", duration_str)
     if not matches:
-        raise ValueError("Invalid duration format. Use a combination of 'h', 'm', and 's' (e.g., '1h5m8s').")
+        raise ValueError("Invalid duration format. Use a combination of 'h', 'm', and 's' (e.g., '1h5m8s') or 'HH:MM:SS'.")
 
     total_seconds = 0
     for value, unit in matches:
@@ -75,7 +83,7 @@ def start_timer(timer_name, duration_str):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run a timer with notifications.")
     parser.add_argument("-t", "--title", required=False, help="Title of the timer", default="Timer")
-    parser.add_argument("-d", "--duration", required=True, help="Duration of the timer (e.g., '1h5m8s')")
+    parser.add_argument("-d", "--duration", required=True, help="Duration of the timer (e.g., '1h5m8s' or 'HH:MM:SS')")
     
     args = parser.parse_args()
 
