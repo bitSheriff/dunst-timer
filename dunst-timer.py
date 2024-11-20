@@ -8,17 +8,19 @@ def parse_duration(duration_str):
     """
     Parse a duration string like '5m' or '10s' into seconds.
     """
-    match = re.match(r"(\d+)([sm])", duration_str)
+    match = re.match(r"(\d+)([smh])", duration_str)
     if not match:
         raise ValueError("Invalid duration format. Use '5m' for minutes or '10s' for seconds.")
     value, unit = match.groups()
     value = int(value)
-    if unit == 'm':
+    if unit == 'h':
+        return value * 3600
+    elif unit == 'm':
         return value * 60
     elif unit == 's':
         return value
     else:
-        raise ValueError("Invalid duration unit. Use 'm' for minutes or 's' for seconds.")
+        raise ValueError("Invalid duration unit. Use 'h' for hours, 'm' for minutes, 's' for seconds or a combination.")
 
 
 def timer(timer_name, duration_str):
