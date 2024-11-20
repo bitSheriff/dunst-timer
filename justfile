@@ -4,6 +4,14 @@ set shell := ["bash", "-uc"]
 # Prompt for the tag version and create a release
 release:
     #!/bin/bash
+
+    # Check if currently on branch master
+    if [ "$(git rev-parse --abbrev-ref HEAD)" != "master" ]; then
+        echo "You must be on the master branch to create a release."
+        exit 1
+    fi
+
+
     echo "Last 5 tags:"
     git tag --sort=-v:refname | head -n 5
     echo "Enter the new release version (e.g., X.YY.ZZ):"
