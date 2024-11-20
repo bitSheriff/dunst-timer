@@ -46,8 +46,6 @@ def start_timer(timer_name, duration_str):
         print(f"Error: {e}")
         return
 
-    print(f"{total_duration} in seconds")
-
     interval = 0.5  # Update interval in seconds (500ms)
     notification_id = None  # Store the ID of the current notification
     start_time = time.time()
