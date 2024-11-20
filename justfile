@@ -40,14 +40,15 @@ release:
         echo "Committing changes and creating tag..."
         git -C aur add -u
         git -C aur commit -m "Release v$version"
+        git -C push aur
         git add -u
+        git add aur
         git commit -m "Release v$version"
         git tag -f "v$version"
-
         echo "Tag v$version created."
+
         git push -f origin
-        git push --tags
-        git -C push aur
+        git push -f --tags
         echo "Pushed changes and tags to all remotes."
     )
     echo "Done"
