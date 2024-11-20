@@ -4,7 +4,6 @@ import subprocess
 import sys
 import argparse
 
-
 def parse_duration(duration_str):
     """
     Parse a duration string like '1h5m8s' or 'HH:MM:SS' into total seconds.
@@ -49,11 +48,16 @@ def start_timer(timer_name, duration_str):
 
     print(f"{total_duration} in seconds")
 
-    interval = 1  # Update interval in seconds
+    interval = 0.5  # Update interval in seconds (500ms)
     notification_id = None  # Store the ID of the current notification
+    start_time = time.time()
 
-    for elapsed in range(0, total_duration + 1, interval):
-        percentage = int((elapsed / total_duration) * 100)
+    while True:
+        elapsed_time = time.time() - start_time
+        if elapsed_time > total_duration:
+            break
+
+        percentage = int((elapsed_time / total_duration) * 100)
         message = f"{timer_name}: {percentage}% complete"
         
         # Send or update the notification
@@ -71,14 +75,12 @@ def start_timer(timer_name, duration_str):
                 ["dunstify", "-r", notification_id, "-h", f"int:value:{percentage}", message]
             )
 
-        if elapsed < total_duration:
-            time.sleep(interval)
+        time.sleep(interval)
 
     # Final notification when the timer is complete
     subprocess.run(
         ["dunstify", "-r", notification_id, f"{timer_name} complete!", "-h", "int:value:100"]
     )
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run a timer with notifications.")

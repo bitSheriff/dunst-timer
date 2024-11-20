@@ -9,6 +9,10 @@
 - **Options** ([Issue #1](https://github.com/bitSheriff/dunst-timer/issues/1)): The script now supports the `-t` for the title and `-d` for the duration option.
     - the `-t` is optional, if not provided the title will be set to "Timer"
 
+### 🛠 Fixes
+
+- use time measurement to calculate the remaining time, not the theoretical time which the process sleeps
+
 ## [v1.00.02]
 
 ### 🛠 Fixes
