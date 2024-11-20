@@ -1,6 +1,6 @@
 # Maintainer: bitSheriff <root@bitsheriff.dev>
 pkgname=dunst-timer
-pkgver=1.0.0
+pkgver=1.00.01
 pkgrel=1
 pkgdesc="A Python script for setting timers with progress bar notifications in Dunst"
 arch=('any')
