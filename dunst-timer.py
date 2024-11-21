@@ -6,6 +6,8 @@ import subprocess
 import sys
 import argparse
 
+APP_NAME = "Dunst Timer"
+
 def parse_duration(duration_str):
     """
     Parse a duration string like '1h5m8s' or 'HH:MM:SS' into total seconds.
@@ -77,7 +79,7 @@ def start_timer(timer_name, duration_str):
             else:
                 # Update the existing notification
                 subprocess.run(
-                    ["dunstify", "-r", notification_id, "-h", f"int:value:{percentage}", message]
+                    ["dunstify", "-a", APP_NAME, "-r", notification_id, "-h", f"int:value:{percentage}", message]
                 )
 
             time.sleep(interval)
