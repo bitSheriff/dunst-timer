@@ -2,6 +2,13 @@
 
 A timer which is displayed as a dunst notification
 
+## Motivation
+
+A few weeks ago a great project appeared on Reddit and other platforms:
+[mpris-timer](https://github.com/efogdev/mpris-timer)
+
+A simple timer which uses the MPRIS interface to display a timer as a notification. I really liked the idea and wanted to create a similar application which uses the dunst notification system, because different window managers and desktop environments use different styles of a bar so maybe a media-styled notification would not fit in every environment.
+
 ## Installation
 
 ### Arch User Repository
@@ -25,12 +32,12 @@ On any other system you can install the application by cloning the repository an
 
 ## Usage
 
-    ```bash
-    python dunst-timer.py -d 10m
-    ```
+```bash
+python dunst-timer.py -d 10m -t "A 10 minute timer"
+```
 
-    or if the application is installed
+or if the application is installed
 
-    ```bash
-    dunst-timer -d 10m
-    ```
+```bash
+dunst-timer -d 10m
+```
