@@ -6,6 +6,10 @@
 
 - **Handle Keyboard Interrupts** [Issue #6](https://github.com/bitSheriff/dunst-timer/issues/6)
 
+### 🛠 Fixes
+
+- **App Name**: now the app name is set for dunst
+
 ## [v1.00.04] - [v1.00.06]
 
 ### 🛠 Fixes
