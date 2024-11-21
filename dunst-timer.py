@@ -37,6 +37,11 @@ def parse_duration(duration_str):
 
     return total_seconds
 
+def stop_timer(notification_id):
+    """
+    Close the timer notification with the given ID.
+    """
+    subprocess.run(["dunstify", "-C", notification_id])
 
 def start_timer(timer_name, duration_str):
     """
@@ -51,36 +56,40 @@ def start_timer(timer_name, duration_str):
     interval = 0.5  # Update interval in seconds (500ms)
     notification_id = None  # Store the ID of the current notification
     start_time = time.time()
+    try:
+        while True:
+            elapsed_time = time.time() - start_time
+            if elapsed_time > total_duration:
+                break
 
-    while True:
-        elapsed_time = time.time() - start_time
-        if elapsed_time > total_duration:
-            break
+            percentage = int((elapsed_time / total_duration) * 100)
+            message = f"{timer_name}: {percentage}% complete"
+            
+            # Send or update the notification
+            if notification_id is None:
+                # First notification, store its ID
+                result = subprocess.run(
+                    ["dunstify", "-p", "-h", f"int:value:{percentage}", message],
+                    stdout=subprocess.PIPE,
+                    text=True
+                )
+                notification_id = result.stdout.strip()  # Capture the notification ID
+            else:
+                # Update the existing notification
+                subprocess.run(
+                    ["dunstify", "-r", notification_id, "-h", f"int:value:{percentage}", message]
+                )
 
-        percentage = int((elapsed_time / total_duration) * 100)
-        message = f"{timer_name}: {percentage}% complete"
-        
-        # Send or update the notification
-        if notification_id is None:
-            # First notification, store its ID
-            result = subprocess.run(
-                ["dunstify", "-p", "-h", f"int:value:{percentage}", message],
-                stdout=subprocess.PIPE,
-                text=True
-            )
-            notification_id = result.stdout.strip()  # Capture the notification ID
-        else:
-            # Update the existing notification
-            subprocess.run(
-                ["dunstify", "-r", notification_id, "-h", f"int:value:{percentage}", message]
-            )
+            time.sleep(interval)
 
-        time.sleep(interval)
-
-    # Final notification when the timer is complete
-    subprocess.run(
-        ["dunstify", "-r", notification_id, f"{timer_name} complete!", "-h", "int:value:100"]
-    )
+        # Final notification when the timer is complete
+        subprocess.run(
+            ["dunstify", "-r", notification_id, f"{timer_name} complete!", "-h", "int:value:100"]
+        )
+    except KeyboardInterrupt:
+        # Handle Ctrl+C to stop the timer
+        stop_timer(notification_id)
+        print("\nTimer stopped.")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run a timer with notifications.")
