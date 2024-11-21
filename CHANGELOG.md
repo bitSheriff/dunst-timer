@@ -5,10 +5,13 @@
 ### 🚀 Features
 
 - **Handle Keyboard Interrupts** [Issue #6](https://github.com/bitSheriff/dunst-timer/issues/6)
+- **Percentage is now optional**: the percentage is only displayed if the `-p` flag is set
 
 ### 🛠 Fixes
 
-- **App Name**: now the app name is set for dunst
+- **App Name**: now the app name is set for the dunst notification
+    - so it can be filtered in the settings more easily
+- **Usage**: works now with custom instructions
 
 ## [v1.00.04] - [v1.00.06]
 
