@@ -65,7 +65,7 @@ def start_timer(timer_name, duration_str):
                 break
 
             percentage = int((elapsed_time / total_duration) * 100)
-            message = f"{timer_name}: {percentage}% complete"
+            message = f"{timer_name}: {percentage}%"
             
             # Send or update the notification
             if notification_id is None:
