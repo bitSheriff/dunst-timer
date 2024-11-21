@@ -8,6 +8,14 @@ import argparse
 
 APP_NAME = "Dunst Timer"
 
+def usage():
+    print(f"Usage: {sys.argv[0]} [-t TITLE] -d DURATION [-p]")
+    print("Run a timer with notifications.")
+    print("  -t, --title       Title of the timer (default: 'Timer')")
+    print("  -d, --duration    Duration of the timer (e.g., '1h5m8s' or 'HH:MM:SS')")
+    print("  -p, --percentage  Print the percentage of the timer")
+    print("  -h, --help        Print this help message")
+
 def parse_duration(duration_str):
     """
     Parse a duration string like '1h5m8s' or 'HH:MM:SS' into total seconds.
@@ -64,8 +72,15 @@ def start_timer(timer_name, duration_str):
             if elapsed_time > total_duration:
                 break
 
+            # Calculate the percentage of the timer which has elapsed
             percentage = int((elapsed_time / total_duration) * 100)
-            message = f"{timer_name}: {percentage}%"
+
+            # Construct the notification message
+            message = f"{timer_name}"
+
+            # Add the percentage if requested
+            if args.percentage:
+                message = message + f": {percentage}%"
             
             # Send or update the notification
             if notification_id is None:
@@ -94,10 +109,17 @@ def start_timer(timer_name, duration_str):
         print("\nTimer aborted.")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Run a timer with notifications.")
+    parser = argparse.ArgumentParser(description="Run a timer with notifications.", add_help=False)
     parser.add_argument("-t", "--title", required=False, help="Title of the timer", default="Timer")
-    parser.add_argument("-d", "--duration", required=True, help="Duration of the timer (e.g., '1h5m8s' or 'HH:MM:SS')")
-    
+    parser.add_argument("-d", "--duration", required=False, help="Duration of the timer (e.g., '1h5m8s' or 'HH:MM:SS')") # if required=True then the custom usage message will not be printed (fails when prase_args() is called)
+    parser.add_argument("-p", "--percentage", action="store_true", help="Print the percentage of the timer")
+    parser.add_argument("-h", "--help", action="store_true", help="Print the help message")
+  
     args = parser.parse_args()
+
+    # check if the help flag is set or the precondition is not met
+    if args.help or not args.duration:
+        usage()
+        sys.exit(0)
 
     start_timer(args.title, args.duration)
