@@ -41,3 +41,9 @@ or if the application is installed
 ```bash
 dunst-timer -d 10m
 ```
+
+The timer is blocking, so you can't use the terminal until the timer is finished. If you want to run the timer in the background you can use the `&` operator
+
+```bash
+dunst-timer -d 10m &
+```
