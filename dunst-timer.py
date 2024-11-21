@@ -89,7 +89,7 @@ def start_timer(timer_name, duration_str):
     except KeyboardInterrupt:
         # Handle Ctrl+C to stop the timer
         stop_timer(notification_id)
-        print("\nTimer stopped.")
+        print("\nTimer aborted.")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run a timer with notifications.")
