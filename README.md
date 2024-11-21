@@ -53,9 +53,9 @@ Run a timer with notifications.
 
 The application is available in the AUR as `dunst-timer`
 
-    ```bash
-    yay -S dunst-timer
-    ```
+```bash
+yay -S dunst-timer
+```
 
 ### Manual Installation
 
