@@ -1,6 +1,4 @@
 
-A timer which is displayed as a dunst notification
-
 ## Motivation
 
 A few weeks ago a great project appeared on Reddit and other platforms:
@@ -24,10 +22,9 @@ Need more color in your life?
 
 ![](doc/colored-example.png)
 
-(see [Configuration](#Configuration) how this is done)
+(see [Configuration](#configuration) how this is done)
 
 ---
-
 
 ```bash
 python dunst-timer.py -d 10m -t "A 10 minute timer 💼 "
@@ -118,4 +115,3 @@ Change the color of the timer:
 ```
 
 For more information about the configuration of `dunst` see the [dunst documentation](https://dunst-project.org/documentation/)
-
