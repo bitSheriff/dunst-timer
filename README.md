@@ -1,4 +1,3 @@
-# Dunst Timer
 
 A timer which is displayed as a dunst notification
 
@@ -21,6 +20,11 @@ And if you don't want to be stressed by the remaining time you can disable the p
 
 ![](doc/example3.png)
 
+Need more color in your life?
+
+![](doc/colored-example.png)
+(see [Configuration](#Configuration) how this is done)
+
 ```bash
 python dunst-timer.py -d 10m -t "A 10 minute timer 💼 "
 ```
@@ -38,6 +42,7 @@ dunst-timer -d 10m &
 ```
 
 **Full Spec**
+
 ```bash
 Usage: dunst-timer [-t TITLE] -d DURATION [-p]
 Run a timer with notifications.
@@ -67,11 +72,13 @@ On any other system you can install the application by cloning the repository an
     cp dunst-timer.py /usr/bin/dunst-timer
     chmod +x /usr/bin/dunst-timer
 ```
+
 ### Configuration
 
 The script uses the `dunst` notification system, so it will use the default settings of `dunst`. If you want to change the settings you can do this in the `dunstrc` file. The default location is `~/.config/dunst/dunstrc`.
 
 To enable the progress bar, use these (or similar) settings:
+
 ```txt
     # Window Confiration
     width = 300
@@ -98,7 +105,7 @@ To enable the progress bar, use these (or similar) settings:
 ```
 
 Change the color of the timer:
-    
+
 ```bash
     [dunst-timer]
     appname = Dunst Timer
@@ -107,3 +114,4 @@ Change the color of the timer:
 ```
 
 For more information about the configuration of `dunst` see the [dunst documentation](https://dunst-project.org/documentation/)
+
