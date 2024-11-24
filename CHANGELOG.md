@@ -1,5 +1,11 @@
 # Changelog and Release Notes
 
+## [v1.00.08]
+
+### 📚 Documentation
+- example for a different border color
+
+
 ## [v1.00.07]
 
 ### 🚀 Features
