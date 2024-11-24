@@ -23,6 +23,7 @@ And if you don't want to be stressed by the remaining time you can disable the p
 Need more color in your life?
 
 ![](doc/colored-example.png)
+
 (see [Configuration](#Configuration) how this is done)
 
 ```bash
