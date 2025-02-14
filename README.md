@@ -55,6 +55,8 @@ Run a timer with notifications.
 
 ## Installation & Configuration
 
+[![Packaging status](https://repology.org/badge/vertical-allrepos/dunst-timer.svg)](https://repology.org/project/dunst-timer/versions)
+
 ### Arch User Repository
 
 The application is available in the AUR as `dunst-timer`
