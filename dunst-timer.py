@@ -54,7 +54,7 @@ def stop_timer(notification_id):
     """
     subprocess.run(["dunstify", "-C", notification_id])
 
-def start_timer(timer_name, duration_str, icon):
+def start_timer(timer_name, duration_str):
     """
     Run a timer with the given name and duration.
     """
@@ -78,6 +78,12 @@ def start_timer(timer_name, duration_str, icon):
 
             # Construct the notification message
             message = f"{timer_name}"
+
+            # Set icon if requested
+            if args.icon:
+                icon = args.icon
+            else:
+                icon = "none"
 
             # Add the percentage if requested
             if args.percentage:
@@ -124,4 +130,4 @@ if __name__ == "__main__":
         usage()
         sys.exit(0)
 
-    start_timer(args.title, args.duration, args.icon)
+    start_timer(args.title, args.duration)

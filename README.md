@@ -50,6 +50,7 @@ Run a timer with notifications.
   -t, --title       Title of the timer (default: 'Timer')
   -d, --duration    Duration of the timer (e.g., '1h5m8s' or 'HH:MM:SS')
   -p, --percentage  Print the percentage of the timer
+  -i, --icon        Set icon for notification
   -h, --help        Print this help message
 ```
 
