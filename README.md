@@ -47,10 +47,11 @@ dunst-timer -d 10m &
 ```bash
 Usage: dunst-timer [-t TITLE] -d DURATION [-p]
 Run a timer with notifications.
-  -t, --title       Title of the timer (default: 'Timer')
-  -d, --duration    Duration of the timer (e.g., '1h5m8s' or 'HH:MM:SS')
-  -p, --percentage  Print the percentage of the timer
-  -h, --help        Print this help message
+  -t, --title         Title of the timer (default: 'Timer')
+  -d, --duration      Duration of the timer (e.g., '1h5m8s' or 'HH:MM:SS')
+  -D, --show-duration Print the duration of the timer
+  -p, --percentage    Print the percentage of the timer
+  -h, --help          Print this help message
 ```
 
 ## Installation & Configuration
