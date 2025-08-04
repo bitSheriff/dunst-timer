@@ -15,6 +15,7 @@ def usage():
     print("  -d, --duration      Duration of the timer (e.g., '1h5m8s' or 'HH:MM:SS')")
     print("  -D, --show-duration Print the duration of the timer")
     print("  -p, --percentage    Print the percentage of the timer")
+    print("  -i, --icon        Set icon for notification")
     print("  -h, --help          Print this help message")
 
 def parse_duration(duration_str):
@@ -93,6 +94,11 @@ def start_timer(timer_name, duration_str):
             if args.show_duration:
                 remaining_time = seconds_to_human(round(total_duration - elapsed_time))
                 message = message + f" - {remaining_time}"
+            # Set icon if requested
+            if args.icon:
+                icon = args.icon
+            else:
+                icon = "none"
 
             # Add the percentage if requested
             if args.percentage:
@@ -102,7 +108,7 @@ def start_timer(timer_name, duration_str):
             if notification_id is None:
                 # First notification, store its ID
                 result = subprocess.run(
-                    ["dunstify", "-p", "-h", f"int:value:{percentage}", message],
+                    ["dunstify", "-p", "-h", f"int:value:{percentage}", message, "--icon", icon],
                     stdout=subprocess.PIPE,
                     text=True
                 )
@@ -110,14 +116,14 @@ def start_timer(timer_name, duration_str):
             else:
                 # Update the existing notification
                 subprocess.run(
-                    ["dunstify", "-a", APP_NAME, "-r", notification_id, "-h", f"int:value:{percentage}", message]
+                    ["dunstify", "-a", APP_NAME, "-r", notification_id, "-h", f"int:value:{percentage}", message, "--icon", icon]
                 )
 
             time.sleep(interval)
 
         # Final notification when the timer is complete
         subprocess.run(
-            ["dunstify", "-r", notification_id, f"{timer_name} complete!", "-h", "int:value:100"]
+            ["dunstify", "-r", notification_id, f"{timer_name} complete!", "-h", "int:value:100", "--icon", icon]
         )
     except KeyboardInterrupt:
         # Handle Ctrl+C to stop the timer
@@ -130,6 +136,7 @@ if __name__ == "__main__":
     parser.add_argument("-d", "--duration", required=False, help="Duration of the timer (e.g., '1h5m8s' or 'HH:MM:SS')") # if required=True then the custom usage message will not be printed (fails when prase_args() is called)
     parser.add_argument("-D", "--show-duration", action="store_true", help="Print the duration of the timer")
     parser.add_argument("-p", "--percentage", action="store_true", help="Print the percentage of the timer")
+    parser.add_argument("-i", "--icon", required=False, help="Set icon for notification")
     parser.add_argument("-h", "--help", action="store_true", help="Print the help message")
   
     args = parser.parse_args()
