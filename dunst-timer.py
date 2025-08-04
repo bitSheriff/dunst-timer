@@ -11,11 +11,12 @@ APP_NAME = "Dunst Timer"
 def usage():
     print(f"Usage: {sys.argv[0]} [-t TITLE] -d DURATION [-p]")
     print("Run a timer with notifications.")
-    print("  -t, --title       Title of the timer (default: 'Timer')")
-    print("  -d, --duration    Duration of the timer (e.g., '1h5m8s' or 'HH:MM:SS')")
-    print("  -p, --percentage  Print the percentage of the timer")
+    print("  -t, --title         Title of the timer (default: 'Timer')")
+    print("  -d, --duration      Duration of the timer (e.g., '1h5m8s' or 'HH:MM:SS')")
+    print("  -D, --show-duration Print the duration of the timer")
+    print("  -p, --percentage    Print the percentage of the timer")
     print("  -i, --icon        Set icon for notification")
-    print("  -h, --help        Print this help message")
+    print("  -h, --help          Print this help message")
 
 def parse_duration(duration_str):
     """
@@ -48,6 +49,16 @@ def parse_duration(duration_str):
 
     return total_seconds
 
+def seconds_to_human(seconds):
+    hours = seconds // 3600
+    minutes = (seconds % 3600) // 60
+    remaining_seconds = seconds % 60
+    output = ""
+    if hours: output += f"{hours}h"
+    if minutes: output += f"{minutes}m"
+    if remaining_seconds or not output: output += f"{remaining_seconds}s"
+    return output
+
 def stop_timer(notification_id):
     """
     Close the timer notification with the given ID.
@@ -79,6 +90,10 @@ def start_timer(timer_name, duration_str):
             # Construct the notification message
             message = f"{timer_name}"
 
+            # Add the duration if requested
+            if args.show_duration:
+                remaining_time = seconds_to_human(round(total_duration - elapsed_time))
+                message = message + f" - {remaining_time}"
             # Set icon if requested
             if args.icon:
                 icon = args.icon
@@ -119,6 +134,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run a timer with notifications.", add_help=False)
     parser.add_argument("-t", "--title", required=False, help="Title of the timer", default="Timer")
     parser.add_argument("-d", "--duration", required=False, help="Duration of the timer (e.g., '1h5m8s' or 'HH:MM:SS')") # if required=True then the custom usage message will not be printed (fails when prase_args() is called)
+    parser.add_argument("-D", "--show-duration", action="store_true", help="Print the duration of the timer")
     parser.add_argument("-p", "--percentage", action="store_true", help="Print the percentage of the timer")
     parser.add_argument("-i", "--icon", required=False, help="Set icon for notification")
     parser.add_argument("-h", "--help", action="store_true", help="Print the help message")
